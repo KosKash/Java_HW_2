@@ -1,3 +1,4 @@
+    
 // 1) Дана строка sql-запроса "select * from students where ". 
 // Сформируйте часть WHERE этого запроса, используя StringBuilder. 
 // Данные для фильтрации приведены ниже в виде json-строки.
@@ -15,16 +16,15 @@ public class Ex1 {
         
         String file = "ex1.json";
         String json = readFileAsString(file);
-        StringBuilder sb = new StringBuilder(json);
-        sb.replace(0,1,"");
-        sb.replace(sb.length()-1, sb.length(),"");
-        String out_json = sb.toString();
-
-        // Блок кода открывает json файл и убирает лишнее
+        json = json.replace('{',' ');
+        json = json.replace('}',' ');
+        json = json.replace(':','=');
+        json = json.replace('"',' ');
+        String array_json [] = json.split(", "); 
         
-        out_json = out_json.replace(':','=');
-        out_json = out_json.replace('"',' ');
-        String array_json [] = out_json.split(","); 
+        // Считывает json, преобразует его в строку, далее убирает кавычки, и сплитует в массив
+
+        
         StringBuilder json_fin = new StringBuilder();
         String sql_task = "select * from students WHERE";
         json_fin.append(sql_task);
@@ -34,10 +34,8 @@ public class Ex1 {
                 json_fin.append("AND");
             }
         }
+        // Инит стрбилд, из sql task и массива собирает запрос  
 
-        // Блок кода парсит строку с json, заменяет все кавычки и запятые, далее преобразует в массив, и итерациями с 
-        // заготовкой sql_task, собирает из массива запрос
-                
         System.out.println(json_fin);
         }
 
@@ -45,20 +43,4 @@ public class Ex1 {
     {
         return new String(Files.readAllBytes(Paths.get(file)));
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
